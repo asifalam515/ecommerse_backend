@@ -1,9 +1,13 @@
-type TUser = {
+export type TUser = {
   role: "admin" | "customer";
-  name: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
   email: string;
   phoneNumber?: string;
   password: string;
+  status: "active" | "blocked";
   address?: string;
   createdAt: Date;
   updatedAt: Date;

@@ -1,2 +1,5 @@
-import express from "express";
-export const route = express.Router();
+import express, { Request, Response } from "express";
+export const router = express.Router();
+router.get("", (req: Request, res: Response) => {
+  res.send("got it");
+});

@@ -24,4 +24,4 @@ const useSchema = new Schema<TUser>({
     required: false,
   },
 });
-const UserModel = mongoose.model("User", useSchema);
+export const UserModel = mongoose.model("User", useSchema);

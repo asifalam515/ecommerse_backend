@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { UserModel } from "./user.model";
 import { userService } from "./user.service";
 const createUser = async (req: Request, res: Response) => {
   const user = req.body.users;
@@ -10,5 +9,12 @@ const createUser = async (req: Request, res: Response) => {
     data: newUser,
   });
 };
-
-export const userController = { createUser };
+const getAllUsers = async (req: Request, res: Response) => {
+  const result = await userService.getUsersFromDB();
+  res.status(200).json({
+    success: true,
+    message: "retrieve all users",
+    data: result,
+  });
+};
+export const userController = { createUser, getAllUsers };

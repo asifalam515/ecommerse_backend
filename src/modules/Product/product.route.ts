@@ -5,3 +5,4 @@ productRoute.post("/create-product", productController.createProduct);
 productRoute.get("/:productId", productController.getSingleProduct);
 productRoute.get("/", productController.getAllProducts);
 productRoute.put("/:productId", productController.updateProduct);
+productRoute.delete("/:productId", productController.deleteProduct);

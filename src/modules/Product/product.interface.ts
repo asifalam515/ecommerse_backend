@@ -11,6 +11,6 @@ export type TProduct = {
   isFeatured: boolean;
   createdAt: Date;
   updatedAt: Date;
+  findGoodProduct: () => Promise<TProduct[]>;
   findEmptyStock(): Promise<TProduct[]>;
-  findGoodReview: () => Promise<TProduct[]>;
 };

@@ -52,12 +52,18 @@ const productSchema = new Schema<TProduct>(
   },
   { timestamps: true }
 );
+
+// static methods
+productSchema.statics = {
+  findGoodProduct: function () {
+    return this.find({ rating: { $gt: 4 } });
+  },
+};
+
+// instance methods
 productSchema.methods = {
   findEmptyStock: function () {
     return mongoose.model("Product").find({ stock: 0 });
-  },
-  findGoodReview: function () {
-    return mongoose.model("Product").find({ rating: { $gt: 4 } });
   },
 };
 export const Product = mongoose.model<TProduct>("Product", productSchema);

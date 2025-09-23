@@ -85,6 +85,14 @@ const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
+//static method
+const bestRating = async (req: Request, res: Response) => {
+  const data = await Product.findGoodProduct();
+  res.status(200).json({
+    message: "good products that have more than 4 review",
+    data: data,
+  });
+};
 // instance method
 const checkIsEmpty = async (req: Request, res: Response) => {
   const product = new Product();
@@ -93,13 +101,9 @@ const checkIsEmpty = async (req: Request, res: Response) => {
     data: data,
   });
 };
-const goodReviewedProduct = async (req: Request, res: Response) => {
-  const product = new Product();
-  const data = await product.findGoodReview();
-  res.status(200).json({
-    data: data,
-  });
-};
+
+// static methods
+
 export const productController = {
   createProduct,
   getAllProducts,
@@ -107,5 +111,5 @@ export const productController = {
   updateProduct,
   deleteProduct,
   checkIsEmpty,
-  goodReviewedProduct,
+  bestRating,
 };

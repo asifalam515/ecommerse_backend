@@ -15,4 +15,39 @@ const createProduct = async (req: Request, res: Response) => {
     });
   }
 };
-export const productController = { createProduct };
+const getAllProducts = async (req: Request, res: Response) => {
+  try {
+    const result = await productService.getAllProductFromDB();
+    res.status(200).json({
+      succss: true,
+      message: "All Product retrieve",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      sucess: false,
+      message: error,
+    });
+  }
+};
+const getSingleProduct = async (req: Request, res: Response) => {
+  const productId: string = req.params.productId;
+  try {
+    const result = await productService.getSingleProductFromDB(productId);
+    res.status(200).json({
+      success: true,
+      message: "single product retrieve",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      sucess: false,
+      message: error,
+    });
+  }
+};
+export const productController = {
+  createProduct,
+  getAllProducts,
+  getSingleProduct,
+};

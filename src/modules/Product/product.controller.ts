@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { productService } from "./product.service";
+import { Product } from "./product.model";
 
 const createProduct = async (req: Request, res: Response) => {
   const productData = req.body.products;
@@ -83,10 +84,28 @@ const deleteProduct = async (req: Request, res: Response) => {
     });
   }
 };
+
+// instance method
+const checkIsEmpty = async (req: Request, res: Response) => {
+  const product = new Product();
+  const data = await product.findEmptyStock();
+  res.status(200).json({
+    data: data,
+  });
+};
+const goodReviewedProduct = async (req: Request, res: Response) => {
+  const product = new Product();
+  const data = await product.findGoodReview();
+  res.status(200).json({
+    data: data,
+  });
+};
 export const productController = {
   createProduct,
   getAllProducts,
   getSingleProduct,
   updateProduct,
   deleteProduct,
+  checkIsEmpty,
+  goodReviewedProduct,
 };

@@ -1,17 +1,28 @@
 import { Request, Response } from "express";
 import { userService } from "./user.service";
 import { UserModel } from "./user.model";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
 
 //authentication
 const signUp = async (req: Request, res: Response) => {
-  const newUser = await new UserModel({
-    name: req.body.name,
-    role: req.body.role,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-    password:
-  });
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.users.password, 10);
+    const newUser = new UserModel({
+      name: req.body.users.name,
+      role: req.body.users.role,
+      email: req.body.users.email,
+      phoneNumber: req.body.users.phoneNumber,
+      password: hashedPassword,
+    });
+    await newUser.save();
+    res.status(200).json({
+      message: "sign Up was successful!",
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 // routes .................
 const createUser = async (req: Request, res: Response) => {
@@ -31,4 +42,4 @@ const getAllUsers = async (req: Request, res: Response) => {
     data: result,
   });
 };
-export const userController = { createUser, getAllUsers };
+export const userController = { createUser, getAllUsers, signUp };

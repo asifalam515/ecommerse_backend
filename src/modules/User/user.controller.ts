@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { userService } from "./user.service";
 import { UserModel } from "./user.model";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 //authentication
 const signUp = async (req: Request, res: Response) => {
@@ -24,6 +25,46 @@ const signUp = async (req: Request, res: Response) => {
     });
   }
 };
+// login
+const logIn = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const user = await UserModel.find({ email });
+    if (user && user.length > 0) {
+      const isvalidPassword = await bcrypt.compare(password, user[0].password);
+      if (isvalidPassword) {
+        // we are going to give jwt token
+        //generate token
+        const token = jwt.sign(
+          {
+            username: user[0].name.firstName,
+            userId: user[0]._id,
+          },
+          process.env.JWT_SECRET as string,
+          {
+            expiresIn: "1h",
+          }
+        );
+        res.status(200).json({
+          "access-token": token,
+          message: "login successful",
+        });
+      } else {
+        res.status(401).json({
+          message: "authentication failed",
+        });
+      }
+    } else {
+      res.status(401).json({
+        message: "authentication failed",
+      });
+    }
+  } catch (error) {
+    res.status(401).json({
+      message: " something went wrong  while authentication",
+    });
+  }
+};
 // routes .................
 const createUser = async (req: Request, res: Response) => {
   const user = req.body.users;
@@ -42,4 +83,4 @@ const getAllUsers = async (req: Request, res: Response) => {
     data: result,
   });
 };
-export const userController = { createUser, getAllUsers, signUp };
+export const userController = { createUser, getAllUsers, signUp, logIn };

@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { TProduct } from "./product.interface";
+import { productController } from "./product.controller";
 
 const productSchema = new Schema<TProduct>(
   {
@@ -52,7 +53,12 @@ const productSchema = new Schema<TProduct>(
   },
   { timestamps: true }
 );
-
+// query helper
+productSchema.query = {
+  cheapProduct: function () {
+    return this.find({ price: { $lt: 8 } });
+  },
+};
 // static methods
 productSchema.statics = {
   findGoodProduct: function () {

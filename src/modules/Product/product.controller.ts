@@ -85,6 +85,14 @@ const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
+//query helper
+const cheapProduct = async (req: Request, res: Response) => {
+  const data = await Product.find().cheapProduct();
+  res.status(200).json({
+    message: "good products will less than 9",
+    data: data,
+  });
+};
 //static method
 const bestRating = async (req: Request, res: Response) => {
   const data = await Product.findGoodProduct();
@@ -112,4 +120,5 @@ export const productController = {
   deleteProduct,
   checkIsEmpty,
   bestRating,
+  cheapProduct,
 };

@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export type TProduct = {
   name: string;
   description?: string;
@@ -13,4 +15,8 @@ export type TProduct = {
   updatedAt: Date;
   findGoodProduct: () => Promise<TProduct[]>;
   findEmptyStock(): Promise<TProduct[]>;
+  cheapProduct: any;
+};
+export type ProductQueryHelpers = {
+  cheapProduct(): mongoose.Query<TProduct[], TProduct, ProductQueryHelpers>;
 };

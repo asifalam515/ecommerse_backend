@@ -2,6 +2,7 @@ import express from "express";
 import { productController } from "./product.controller";
 export const productRoute = express.Router();
 // find empty stock
+productRoute.get("/cheap", productController.cheapProduct);
 productRoute.get("/best-rating", productController.bestRating);
 productRoute.get("/empty", productController.checkIsEmpty);
 productRoute.post("/create-product", productController.createProduct);

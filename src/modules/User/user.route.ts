@@ -5,3 +5,5 @@ router.post("/sign-up", userController.signUp);
 router.post("/login", userController.logIn);
 router.post("/create-user", userController.createUser);
 router.get("/users", userController.getAllUsers);
+router.post("/cart/add", userController.addToCart);
+router.get("/:userId/cart", userController.getUserWithCart);

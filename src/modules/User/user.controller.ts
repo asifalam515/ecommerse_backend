@@ -8,14 +8,44 @@ import { Product } from "../Product/product.model";
 // add to cart
 const addToCart = async (req: Request, res: Response) => {
   try {
-    const { userId, productId } = req.body.users;
+    const { userId, productId } = req.body;
     //check if product exists
     const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
+    // update user cart
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        $addToSet: { carts: productId },
+      },
+      { new: true }
+    ).populate("carts");
+    res.status(200).json({
+      success: true,
+      message: "Product added to cart",
+      data: user,
+    });
   } catch (error: any) {
     console.log(error);
+  }
+};
+
+// get user and carts
+export const getUserWithCart = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await UserModel.findById(userId).populate("carts"); // fetch product details
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
   }
 };
 //authentication
@@ -97,4 +127,11 @@ const getAllUsers = async (req: Request, res: Response) => {
     data: result,
   });
 };
-export const userController = { createUser, getAllUsers, signUp, logIn };
+export const userController = {
+  createUser,
+  getAllUsers,
+  signUp,
+  logIn,
+  addToCart,
+  getUserWithCart,
+};

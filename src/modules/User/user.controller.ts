@@ -3,7 +3,21 @@ import { userService } from "./user.service";
 import { UserModel } from "./user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Product } from "../Product/product.model";
 
+// add to cart
+const addToCart = async (req: Request, res: Response) => {
+  try {
+    const { userId, productId } = req.body.users;
+    //check if product exists
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+  } catch (error: any) {
+    console.log(error);
+  }
+};
 //authentication
 const signUp = async (req: Request, res: Response) => {
   try {

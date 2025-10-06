@@ -19,6 +19,7 @@ const useSchema = new Schema<TUser>({
     required: false,
   },
   password: String,
+  carts: [{ type: Schema.Types.ObjectId, ref: "Product" }],
   address: {
     type: String,
     required: false,

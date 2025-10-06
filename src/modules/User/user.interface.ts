@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export type TUser = {
   role: "admin" | "customer";
   name: {
@@ -7,6 +9,7 @@ export type TUser = {
   email: string;
   phoneNumber?: string;
   password: string;
+  carts: Types.ObjectId[];
   status: "active" | "blocked";
   address?: string;
   createdAt: Date;
